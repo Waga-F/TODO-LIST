@@ -3,61 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUXURY_TASK_MANAGER_v1.0</title>
+    <title>LUXURY_TASK_MANAGER_v2.0</title>
     
-    <!-- Tailwind CSS for rapid UI development -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts for a luxury feel -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* * --- カスタムスタイル (ラグジュアリーテーマ) ---
-         * 黒と金を基調とし、高級感を演出するスタイルを定義します。
-        */
+        /* * --- カスタムスタイル (ラグジュアリーテーマ) v2.0 --- */
         :root {
             --bg-color: #121212;
             --primary-color: #1e1e1e;
-            --accent-color: #d4af37; /* Gold */
+            --accent-color: #d4af37;
             --glow-color: rgba(212, 175, 55, 0.4);
             --text-color: #f5f5f5;
             --subtle-text-color: #a0a0a0;
             --danger-color: #c74343;
             --danger-glow: rgba(199, 67, 67, 0.4);
+            --success-color: #5a8a6f;
+        }
+
+        /* --- テーマ: オニキス＆シルバー --- */
+        body.theme-onyx {
+            --accent-color: #c0c0c0; /* Silver */
+            --glow-color: rgba(192, 192, 192, 0.4);
+        }
+        /* --- テーマ: ローズゴールド --- */
+        body.theme-rose-gold {
+            --accent-color: #b76e79; /* Rose Gold */
+            --glow-color: rgba(183, 110, 121, 0.4);
         }
 
         body {
             font-family: 'Lato', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
+            transition: background-color 0.5s ease;
         }
 
         .luxury-title {
             font-family: 'Playfair Display', serif;
             color: var(--accent-color);
             text-shadow: 0 0 10px var(--glow-color);
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+            line-height: 1.25; /* フォントが見切れるのを防ぐために行の高さを調整 */
         }
 
         .luxury-card {
             background-color: var(--primary-color);
             border: 1px solid #333;
             border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px var(--glow-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
-        .luxury-input, .luxury-select {
+        .luxury-input, .luxury-select, .luxury-textarea {
             background-color: #2a2a2a;
             border: 1px solid #444;
             color: var(--text-color);
             border-radius: 6px;
             transition: all 0.3s ease;
         }
-        .luxury-input:focus, .luxury-select:focus {
+        .luxury-input:focus, .luxury-select:focus, .luxury-textarea:focus {
             outline: none;
             border-color: var(--accent-color);
             box-shadow: 0 0 10px var(--glow-color);
@@ -75,7 +83,7 @@
             transition: all 0.3s ease;
         }
         .luxury-btn:hover {
-            background-color: #e7c356;
+            filter: brightness(1.1);
             box-shadow: 0 0 15px var(--glow-color);
             transform: translateY(-2px);
         }
@@ -84,7 +92,7 @@
             background-color: transparent;
             color: var(--accent-color);
         }
-        .luxury-btn-secondary:hover {
+        .luxury-btn-secondary.active, .luxury-btn-secondary:hover {
             background-color: var(--accent-color);
             color: var(--primary-color);
         }
@@ -95,22 +103,43 @@
             color: var(--text-color);
         }
         .luxury-btn-danger:hover {
-            background-color: #e05a5a;
+            filter: brightness(1.1);
             box-shadow: 0 0 15px var(--danger-glow);
         }
         
         .task-item {
             background-color: #2a2a2a;
             border: 1px solid #383838;
+            transition: all 0.3s ease;
+        }
+        .task-item:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        .task-item.completed {
+            opacity: 0.6;
         }
         .task-item.completed .task-text {
             text-decoration: line-through;
             color: var(--subtle-text-color);
         }
 
-        .priority-high { border-left: 4px solid #c74343; }
-        .priority-medium { border-left: 4px solid #d4af37; }
-        .priority-low { border-left: 4px solid #5a8a6f; }
+        .priority-high { border-left: 4px solid var(--danger-color); }
+        .priority-medium { border-left: 4px solid var(--accent-color); }
+        .priority-low { border-left: 4px solid var(--success-color); }
+
+        .tag {
+            background-color: #444;
+            color: #ccc;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
 
         /* スクロールバーのスタイル */
         ::-webkit-scrollbar { width: 10px; }
@@ -122,29 +151,33 @@
 <body class="p-4 md:p-8">
 
     <div class="max-w-4xl mx-auto">
-        <!-- ヘッダー: アプリタイトル -->
+        <!-- ヘッダー -->
         <header class="text-center mb-8">
             <h1 class="text-4xl md:text-5xl font-bold luxury-title">
-                <i class="fas fa-tasks mr-3"></i>Task Manager
+                <i class="fas fa-crown mr-3"></i>Task Manager
             </h1>
             <p class="text-gray-400 text-sm mt-2">// The peak of productivity.</p>
+            <div class="mt-4 flex justify-center gap-4">
+                <button id="open-stats-btn" class="luxury-btn luxury-btn-secondary text-sm px-3 py-1"><i class="fas fa-chart-pie mr-2"></i>統計</button>
+                <button id="open-settings-btn" class="luxury-btn luxury-btn-secondary text-sm px-3 py-1"><i class="fas fa-cog mr-2"></i>設定</button>
+                <button id="request-notification-permission" class="luxury-btn luxury-btn-secondary text-sm px-3 py-1"><i class="fas fa-bell mr-2"></i>通知許可</button>
+            </div>
         </header>
 
         <!-- メインコンテンツ -->
         <main class="luxury-card p-4 md:p-6">
-            <!-- タスク追加フォーム -->
-            <form id="add-task-form" class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
-                <input type="text" id="task-input" class="luxury-input col-span-1 md:col-span-3 p-2" placeholder="新しいタスクを入力..." required>
-                <input type="date" id="due-date-input" class="luxury-input col-span-1 md:col-span-1 p-2" title="Due Date">
-                <select id="priority-input" class="luxury-select col-span-1 md:col-span-1 p-2">
-                    <option value="medium">優先度: 中</option>
-                    <option value="high">優先度: 高</option>
-                    <option value="low">優先度: 低</option>
+            <!-- タスク追加ボタン -->
+            <button id="open-add-task-modal-btn" class="luxury-btn w-full mb-6 py-3">
+                <i class="fas fa-plus mr-2"></i>新しいタスクを追加
+            </button>
+
+            <!-- 検索とフィルター -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <input type="text" id="search-input" class="luxury-input p-2" placeholder="タスク名、メモ、タグで検索...">
+                <select id="tag-filter-select" class="luxury-select p-2">
+                    <option value="all">すべてのタグ</option>
                 </select>
-                <button type="submit" class="luxury-btn p-2 col-span-1 md:col-span-1">
-                    <i class="fas fa-plus mr-1"></i>追加
-                </button>
-            </form>
+            </div>
 
             <!-- フィルターとソート -->
             <div class="flex flex-wrap gap-4 items-center justify-between mb-4">
@@ -163,229 +196,418 @@
             </div>
 
             <!-- TODOリスト -->
-            <div class="h-96 overflow-y-auto pr-2">
-                <ul id="task-list" class="space-y-3">
-                    <!-- タスクアイテムはここに動的に追加されます -->
-                </ul>
+            <div id="task-list-container" class="h-96 overflow-y-auto pr-2">
+                <ul id="task-list" class="space-y-3"></ul>
             </div>
             
-            <!-- フッター: タスク数と一括削除 -->
+            <!-- フッター -->
             <footer class="mt-6 pt-4 border-t border-gray-700 flex justify-between items-center">
-                <p id="task-count" class="text-sm text-gray-400">0 tasks remaining</p>
-                <button id="clear-completed-btn" class="luxury-btn luxury-btn-danger rounded px-3 py-1 text-sm">
-                    <i class="fas fa-trash-alt mr-1"></i> 完了済みを削除
-                </button>
+                <p id="task-count" class="text-sm text-gray-400"></p>
+                <div>
+                    <button id="toggle-archive-view-btn" class="luxury-btn luxury-btn-secondary text-sm px-3 py-1"><i class="fas fa-archive mr-2"></i>アーカイブ表示</button>
+                    <button id="clear-completed-btn" class="luxury-btn luxury-btn-danger rounded px-3 py-1 text-sm ml-2"><i class="fas fa-trash-alt mr-1"></i>完了済みを削除</button>
+                </div>
             </footer>
         </main>
     </div>
 
-    <!-- 編集用モーダル -->
-    <div id="edit-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden">
-        <div class="luxury-card p-6 w-11/12 max-w-md">
-            <h2 class="text-2xl font-bold luxury-title mb-4">タスクを編集</h2>
-            <form id="edit-task-form">
-                <input type="hidden" id="edit-task-id">
-                <input type="text" id="edit-task-text" class="luxury-input w-full p-2 mb-4" required>
-                <input type="date" id="edit-due-date" class="luxury-input w-full p-2 mb-4">
-                <select id="edit-priority" class="luxury-select w-full p-2 mb-6">
-                    <option value="high">優先度: 高</option>
-                    <option value="medium">優先度: 中</option>
-                    <option value="low">優先度: 低</option>
-                </select>
-                <div class="flex justify-end gap-4">
-                    <button type="button" id="cancel-edit-btn" class="luxury-btn luxury-btn-secondary rounded px-4 py-2">キャンセル</button>
-                    <button type="submit" class="luxury-btn rounded px-4 py-2">更新</button>
+    <!-- ===== モーダル ===== -->
+
+    <!-- タスク詳細/編集/追加モーダル -->
+    <div id="details-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden p-4">
+        <div class="luxury-card p-6 w-full max-w-lg max-h-full overflow-y-auto">
+            <h2 id="modal-title" class="text-2xl font-bold luxury-title mb-4">タスク詳細</h2>
+            <form id="details-form">
+                <input type="hidden" id="details-task-id">
+                
+                <label class="block mb-1 text-sm font-bold text-gray-400">タスク名</label>
+                <input type="text" id="details-task-text" class="luxury-input w-full p-2 mb-4" required>
+
+                <label class="block mb-1 text-sm font-bold text-gray-400">メモ</label>
+                <textarea id="details-notes" class="luxury-textarea w-full p-2 mb-4" rows="4"></textarea>
+
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block mb-1 text-sm font-bold text-gray-400">期日</label>
+                        <input type="date" id="details-due-date" class="luxury-input w-full p-2">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-sm font-bold text-gray-400">優先度</label>
+                        <select id="details-priority" class="luxury-select w-full p-2">
+                            <option value="high">高</option>
+                            <option value="medium">中</option>
+                            <option value="low">低</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label class="block mb-1 text-sm font-bold text-gray-400">タグ (カンマ区切り)</label>
+                <input type="text" id="details-tags" class="luxury-input w-full p-2 mb-6" placeholder="例: 仕事, 緊急">
+
+                <div class="flex justify-between items-center">
+                    <div>
+                        <button type="button" id="archive-btn" class="luxury-btn luxury-btn-secondary"><i class="fas fa-archive mr-2"></i>アーカイブ</button>
+                    </div>
+                    <div class="flex gap-4">
+                        <button type="button" id="cancel-details-btn" class="luxury-btn luxury-btn-secondary">キャンセル</button>
+                        <button type="submit" id="save-details-btn" class="luxury-btn">保存</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- 統計モーダル -->
+    <div id="stats-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden p-4">
+        <div class="luxury-card p-6 w-full max-w-md">
+            <h2 class="text-2xl font-bold luxury-title mb-6">統計データ</h2>
+            <div id="stats-content" class="text-center">
+                <!-- グラフはここに動的に生成されます -->
+            </div>
+            <button id="close-stats-btn" class="luxury-btn w-full mt-6">閉じる</button>
+        </div>
+    </div>
+
+    <!-- 設定モーダル -->
+    <div id="settings-modal" class="fixed inset-0 modal-backdrop flex items-center justify-center hidden p-4">
+        <div class="luxury-card p-6 w-full max-w-md">
+            <h2 class="text-2xl font-bold luxury-title mb-6">テーマ設定</h2>
+            <div class="space-y-4">
+                <button data-theme="default" class="theme-btn luxury-btn w-full">オリジナルゴールド</button>
+                <button data-theme="theme-onyx" class="theme-btn luxury-btn w-full">オニキス & シルバー</button>
+                <button data-theme="theme-rose-gold" class="theme-btn luxury-btn w-full">ローズゴールド</button>
+            </div>
+            <button id="close-settings-btn" class="luxury-btn w-full mt-6">閉じる</button>
+        </div>
+    </div>
 
     <script>
+    // v2.0: 多数の機能追加とロジックの全面的な見直し
     document.addEventListener('DOMContentLoaded', () => {
         // --- DOM要素の取得 ---
-        const taskInput = document.getElementById('task-input');
-        const dueDateInput = document.getElementById('due-date-input');
-        const priorityInput = document.getElementById('priority-input');
-        const addTaskForm = document.getElementById('add-task-form');
-        const taskList = document.getElementById('task-list');
-        const taskCount = document.getElementById('task-count');
+        const body = document.body;
+        const taskListEl = document.getElementById('task-list');
+        const taskCountEl = document.getElementById('task-count');
+        const searchInput = document.getElementById('search-input');
+        const tagFilterSelect = document.getElementById('tag-filter-select');
         const filterButtons = document.getElementById('filter-buttons');
         const sortSelect = document.getElementById('sort-select');
         const clearCompletedBtn = document.getElementById('clear-completed-btn');
-        
-        // 編集モーダル関連
-        const editModal = document.getElementById('edit-modal');
-        const editTaskForm = document.getElementById('edit-task-form');
-        const editTaskId = document.getElementById('edit-task-id');
-        const editTaskText = document.getElementById('edit-task-text');
-        const editDueDate = document.getElementById('edit-due-date');
-        const editPriority = document.getElementById('edit-priority');
-        const cancelEditBtn = document.getElementById('cancel-edit-btn');
+        const toggleArchiveViewBtn = document.getElementById('toggle-archive-view-btn');
+
+        // モーダル関連
+        const detailsModal = document.getElementById('details-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const detailsForm = document.getElementById('details-form');
+        const detailsTaskId = document.getElementById('details-task-id');
+        const detailsTaskText = document.getElementById('details-task-text');
+        const detailsNotes = document.getElementById('details-notes');
+        const detailsDueDate = document.getElementById('details-due-date');
+        const detailsPriority = document.getElementById('details-priority');
+        const detailsTags = document.getElementById('details-tags');
+        const archiveBtn = document.getElementById('archive-btn');
+        const cancelDetailsBtn = document.getElementById('cancel-details-btn');
+        const saveDetailsBtn = document.getElementById('save-details-btn');
+
+        const statsModal = document.getElementById('stats-modal');
+        const settingsModal = document.getElementById('settings-modal');
 
         // --- 状態管理 ---
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        let tasks = JSON.parse(localStorage.getItem('tasks_v2')) || [];
         let currentFilter = 'all';
         let currentSort = 'default';
+        let currentTagFilter = 'all';
+        let currentSearchQuery = '';
+        let isArchiveView = false;
 
         // --- ビジネスロジック関数 ---
 
-        const saveTasks = () => {
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+        const saveTasks = () => localStorage.setItem('tasks_v2', JSON.stringify(tasks));
+        const saveTheme = (theme) => localStorage.setItem('theme_v2', theme);
+        const loadTheme = () => {
+            const savedTheme = localStorage.getItem('theme_v2') || 'default';
+            applyTheme(savedTheme);
+        };
+        const applyTheme = (theme) => {
+            body.className = ''; // Reset classes
+            if (theme !== 'default') {
+                body.classList.add(theme);
+            }
+        };
+
+        const render = () => {
+            renderTasks();
+            renderTagFilter();
+            updateTaskCount();
         };
 
         const renderTasks = () => {
-            let filteredTasks = tasks.filter(task => {
+            // 1. アーカイブ表示か通常表示かでタスクをフィルタリング
+            let viewTasks = tasks.filter(task => task.isArchived === isArchiveView);
+
+            // 2. 状態（すべて/実行中/完了）でフィルタリング
+            viewTasks = viewTasks.filter(task => {
                 if (currentFilter === 'completed') return task.completed;
                 if (currentFilter === 'active') return !task.completed;
                 return true;
             });
 
+            // 3. タグでフィルタリング
+            if (currentTagFilter !== 'all') {
+                viewTasks = viewTasks.filter(task => task.tags.includes(currentTagFilter));
+            }
+
+            // 4. 検索クエリでフィルタリング
+            if (currentSearchQuery) {
+                const query = currentSearchQuery.toLowerCase();
+                viewTasks = viewTasks.filter(task => 
+                    task.text.toLowerCase().includes(query) ||
+                    task.notes.toLowerCase().includes(query) ||
+                    task.tags.some(tag => tag.toLowerCase().includes(query))
+                );
+            }
+
+            // 5. ソート
             const priorityValues = { high: 3, medium: 2, low: 1 };
-            let sortedTasks = [...filteredTasks].sort((a, b) => {
+            viewTasks.sort((a, b) => {
                 switch (currentSort) {
-                    case 'priority':
-                        return priorityValues[b.priority] - priorityValues[a.priority];
+                    case 'priority': return priorityValues[b.priority] - priorityValues[a.priority];
                     case 'dueDate':
                         if (!a.dueDate) return 1;
                         if (!b.dueDate) return -1;
                         return new Date(a.dueDate) - new Date(b.dueDate);
-                    default:
-                        return 0;
+                    default: return 0;
                 }
             });
 
-            taskList.innerHTML = '';
-            if (sortedTasks.length === 0) {
-                taskList.innerHTML = `<li class="text-center text-gray-500 p-4">表示するタスクがありません。</li>`;
+            // 6. HTML生成
+            taskListEl.innerHTML = '';
+            if (viewTasks.length === 0) {
+                taskListEl.innerHTML = `<li class="text-center text-gray-500 p-4">${isArchiveView ? 'アーカイブは空です。' : '表示するタスクがありません。'}</li>`;
             } else {
-                sortedTasks.forEach(task => {
+                viewTasks.forEach(task => {
                     const taskElement = document.createElement('li');
                     taskElement.dataset.id = task.id;
-                    taskElement.className = `task-item flex items-center p-3 rounded-md transition-all duration-300 ${task.completed ? 'completed' : ''} priority-${task.priority}`;
+                    taskElement.className = `task-item p-3 rounded-md cursor-pointer ${task.completed ? 'completed' : ''} priority-${task.priority}`;
                     
                     const dueDateText = task.dueDate ? `<span class="text-xs text-gray-400 ml-2"><i class="far fa-calendar-alt mr-1"></i>${task.dueDate}</span>` : '';
+                    const tagsHTML = task.tags.map(tag => `<span class="tag">${tag}</span>`).join(' ');
 
                     taskElement.innerHTML = `
-                        <div class="flex-grow flex items-center cursor-pointer" onclick="toggleTask('${task.id}')">
-                            <i class="far ${task.completed ? 'fa-check-square' : 'fa-square'} text-yellow-300 text-xl mr-4"></i>
-                            <span class="task-text">${task.text}</span>
-                            ${dueDateText}
-                        </div>
                         <div class="flex items-center">
-                            <button onclick="openEditModal('${task.id}')" class="text-gray-400 hover:text-yellow-300 transition-colors px-2"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteTask('${task.id}')" class="text-gray-400 hover:text-red-500 transition-colors px-2"><i class="fas fa-trash-alt"></i></button>
+                            <div class="flex-grow" onclick="openDetailsModal('${task.id}')">
+                                <div class="flex items-center">
+                                    <i class="far ${task.completed ? 'fa-check-square' : 'fa-square'} text-xl mr-4" style="color: var(--accent-color);" onclick="event.stopPropagation(); toggleTask('${task.id}');"></i>
+                                    <span class="task-text font-bold">${task.text}</span>
+                                    ${dueDateText}
+                                </div>
+                                <div class="mt-2 ml-10 flex gap-2 flex-wrap">${tagsHTML}</div>
+                            </div>
+                            <button onclick="openDetailsModal('${task.id}')" class="text-gray-400 hover:text-yellow-300 transition-colors px-2"><i class="fas fa-chevron-right"></i></button>
                         </div>
                     `;
-                    taskList.appendChild(taskElement);
+                    taskListEl.appendChild(taskElement);
                 });
             }
-            
-            updateTaskCount();
+        };
+        
+        const renderTagFilter = () => {
+            const allTags = new Set(tasks.flatMap(t => t.tags));
+            const currentSelected = tagFilterSelect.value;
+            tagFilterSelect.innerHTML = '<option value="all">すべてのタグ</option>';
+            allTags.forEach(tag => {
+                const option = document.createElement('option');
+                option.value = tag;
+                option.textContent = tag;
+                tagFilterSelect.appendChild(option);
+            });
+            tagFilterSelect.value = currentSelected;
         };
 
         const updateTaskCount = () => {
-            const remainingTasks = tasks.filter(task => !task.completed).length;
-            taskCount.textContent = `残りのタスク: ${remainingTasks}件`;
-        };
-        
-        const addTask = (text, dueDate, priority) => {
-            if (text.trim() === '') return;
-            const newTask = {
-                id: 'task-' + new Date().getTime(),
-                text,
-                completed: false,
-                dueDate,
-                priority
-            };
-            tasks.unshift(newTask);
-            saveAndRender();
+            const total = tasks.filter(t => !t.isArchived).length;
+            const remaining = tasks.filter(t => !t.completed && !t.isArchived).length;
+            taskCountEl.textContent = `実行中: ${remaining} / 全て: ${total}`;
         };
 
-        window.deleteTask = (id) => {
-            tasks = tasks.filter(task => task.id !== id);
-            saveAndRender();
+        const saveAndRender = () => {
+            saveTasks();
+            render();
         };
+
+        const openDetailsModal = (id = null) => {
+            detailsForm.reset();
+            if (id) { // 編集モード
+                const task = tasks.find(t => t.id === id);
+                if (!task) return;
+                modalTitle.textContent = 'タスクを編集';
+                detailsTaskId.value = task.id;
+                detailsTaskText.value = task.text;
+                detailsNotes.value = task.notes;
+                detailsDueDate.value = task.dueDate;
+                detailsPriority.value = task.priority;
+                detailsTags.value = task.tags.join(', ');
+                archiveBtn.textContent = task.isArchived ? 'アーカイブから戻す' : 'アーカイブする';
+                archiveBtn.style.display = 'inline-block';
+            } else { // 追加モード
+                modalTitle.textContent = 'タスクを追加';
+                detailsTaskId.value = '';
+                archiveBtn.style.display = 'none';
+            }
+            detailsModal.classList.remove('hidden');
+        };
+
+        const closeDetailsModal = () => detailsModal.classList.add('hidden');
 
         window.toggleTask = (id) => {
-            tasks = tasks.map(task => 
-                task.id === id ? { ...task, completed: !task.completed } : task
-            );
-            saveAndRender();
-        };
-
-        window.openEditModal = (id) => {
             const task = tasks.find(t => t.id === id);
-            if (task) {
-                editTaskId.value = task.id;
-                editTaskText.value = task.text;
-                editDueDate.value = task.dueDate;
-                editPriority.value = task.priority;
-                editModal.classList.remove('hidden');
+            if(task) {
+                task.completed = !task.completed;
+                saveAndRender();
             }
         };
 
-        const closeEditModal = () => {
-            editModal.classList.add('hidden');
-        };
-
-        const updateTask = (id, newText, newDueDate, newPriority) => {
-            tasks = tasks.map(task =>
-                task.id === id ? { ...task, text: newText, dueDate: newDueDate, priority: newPriority } : task
-            );
-            saveAndRender();
-            closeEditModal();
-        };
-
-        const clearCompletedTasks = () => {
-            tasks = tasks.filter(task => !task.completed);
-            saveAndRender();
-        };
+        // --- イベントリスナー ---
+        document.getElementById('open-add-task-modal-btn').addEventListener('click', () => openDetailsModal());
         
-        const saveAndRender = () => {
-            saveTasks();
-            renderTasks();
-        };
-
-        // --- イベントリスナーの設定 ---
-        
-        addTaskForm.addEventListener('submit', e => {
+        detailsForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            addTask(taskInput.value, dueDateInput.value, priorityInput.value);
-            taskInput.value = '';
-            dueDateInput.value = '';
-            priorityInput.value = 'medium';
-            taskInput.focus();
+            const id = detailsTaskId.value;
+            const taskData = {
+                text: detailsTaskText.value.trim(),
+                notes: detailsNotes.value.trim(),
+                dueDate: detailsDueDate.value,
+                priority: detailsPriority.value,
+                tags: detailsTags.value.split(',').map(tag => tag.trim()).filter(Boolean),
+            };
+
+            if (id) { // 更新
+                tasks = tasks.map(t => t.id === id ? { ...t, ...taskData } : t);
+            } else { // 新規作成
+                const newTask = {
+                    id: 'task-' + new Date().getTime(),
+                    completed: false,
+                    isArchived: false,
+                    ...taskData
+                };
+                tasks.unshift(newTask);
+            }
+            saveAndRender();
+            closeDetailsModal();
+        });
+
+        cancelDetailsBtn.addEventListener('click', closeDetailsModal);
+
+        archiveBtn.addEventListener('click', () => {
+            const id = detailsTaskId.value;
+            tasks = tasks.map(t => t.id === id ? { ...t, isArchived: !t.isArchived } : t);
+            saveAndRender();
+            closeDetailsModal();
+        });
+
+        searchInput.addEventListener('input', e => {
+            currentSearchQuery = e.target.value;
+            renderTasks();
+        });
+
+        tagFilterSelect.addEventListener('change', e => {
+            currentTagFilter = e.target.value;
+            renderTasks();
         });
 
         filterButtons.addEventListener('click', e => {
             if (e.target.tagName === 'BUTTON') {
                 currentFilter = e.target.dataset.filter;
-                document.querySelectorAll('#filter-buttons button').forEach(btn => {
-                    btn.classList.remove('active', 'bg-yellow-300', 'text-black');
-                });
-                e.target.classList.add('active', 'bg-yellow-300', 'text-black');
+                document.querySelectorAll('#filter-buttons button').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
                 renderTasks();
             }
         });
-        
+
         sortSelect.addEventListener('change', e => {
             currentSort = e.target.value;
             renderTasks();
         });
 
-        clearCompletedBtn.addEventListener('click', clearCompletedTasks);
-        
-        editTaskForm.addEventListener('submit', e => {
-            e.preventDefault();
-            updateTask(editTaskId.value, editTaskText.value, editDueDate.value, editPriority.value);
+        clearCompletedBtn.addEventListener('click', () => {
+            tasks = tasks.filter(t => !t.completed || t.isArchived);
+            saveAndRender();
         });
 
-        cancelEditBtn.addEventListener('click', closeEditModal);
+        toggleArchiveViewBtn.addEventListener('click', () => {
+            isArchiveView = !isArchiveView;
+            toggleArchiveViewBtn.textContent = isArchiveView ? 'メインリスト表示' : 'アーカイブ表示';
+            toggleArchiveViewBtn.classList.toggle('active');
+            renderTasks();
+        });
+        
+        // --- 設定モーダル ---
+        document.getElementById('open-settings-btn').addEventListener('click', () => settingsModal.classList.remove('hidden'));
+        document.getElementById('close-settings-btn').addEventListener('click', () => settingsModal.classList.add('hidden'));
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const theme = e.target.dataset.theme;
+                applyTheme(theme);
+                saveTheme(theme);
+            });
+        });
 
-        // --- 初期化処理 ---
-        renderTasks();
-        document.querySelector('#filter-buttons button[data-filter="all"]').classList.add('active', 'bg-yellow-300', 'text-black');
+        // --- 統計モーダル ---
+        document.getElementById('open-stats-btn').addEventListener('click', () => {
+            renderStats();
+            statsModal.classList.remove('hidden');
+        });
+        document.getElementById('close-stats-btn').addEventListener('click', () => statsModal.classList.add('hidden'));
+
+        const renderStats = () => {
+            const statsContent = document.getElementById('stats-content');
+            const activeTasks = tasks.filter(t => !t.isArchived);
+            const total = activeTasks.length;
+            const completed = activeTasks.filter(t => t.completed).length;
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            statsContent.innerHTML = `
+                <p class="mb-4">完了率: ${completed} / ${total} タスク</p>
+                <div class="w-full bg-gray-700 rounded-full h-4">
+                    <div class="bg-green-500 h-4 rounded-full" style="width: ${percentage}%; background-color: var(--accent-color);"></div>
+                </div>
+                <p class="text-2xl font-bold mt-2" style="color: var(--accent-color);">${percentage}%</p>
+            `;
+        };
+
+        // --- 通知機能 ---
+        document.getElementById('request-notification-permission').addEventListener('click', () => {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    new Notification('通知が許可されました！', { body: '期日リマインダーが有効になります。' });
+                }
+            });
+        });
+        
+        setInterval(() => {
+            if (Notification.permission !== 'granted') return;
+            
+            const now = new Date();
+            tasks.filter(t => !t.completed && !t.isArchived && t.dueDate).forEach(t => {
+                const dueDate = new Date(t.dueDate);
+                const timeDiff = dueDate.getTime() - now.getTime();
+                // 24時間前かつ、まだ通知されていない場合
+                if (timeDiff > 0 && timeDiff < 24 * 60 * 60 * 1000) {
+                    const notified = localStorage.getItem('notified_' + t.id);
+                    if (!notified) {
+                        new Notification('タスクの期日が迫っています', {
+                            body: `「${t.text}」は明日が期日です。`,
+                            icon: 'https://img.icons8.com/office/80/000000/crown.png'
+                        });
+                        localStorage.setItem('notified_' + t.id, 'true');
+                    }
+                }
+            });
+        }, 60 * 1000); // 1分ごとにチェック
+
+        // --- 初期化 ---
+        loadTheme();
+        render();
     });
     </script>
 </body>
