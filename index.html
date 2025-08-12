@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CYBER_TASK_MANAGER_v1.0</title>
+    <title>LUXURY_TASK_MANAGER_v1.0</title>
     
     <!-- Tailwind CSS for rapid UI development -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,108 +11,112 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Google Fonts for a futuristic feel -->
+    <!-- Google Fonts for a luxury feel -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* * --- カスタムスタイル ---
-         * 最高のエンジニアとして、UI/UXを最大化するための微調整を施します。
-         * サイバーパンクの雰囲気を高めるためのカスタムプロパティとエフェクトを定義します。
+        /* * --- カスタムスタイル (ラグジュアリーテーマ) ---
+         * 黒と金を基調とし、高級感を演出するスタイルを定義します。
         */
         :root {
-            --bg-color: #0d0d1a;
-            --primary-color: #1a1a2e;
-            --accent-color: #00f2ff;
-            --glow-color: rgba(0, 242, 255, 0.5);
-            --text-color: #e0e0e0;
-            --danger-color: #ff3b30;
-            --danger-glow: rgba(255, 59, 48, 0.5);
+            --bg-color: #121212;
+            --primary-color: #1e1e1e;
+            --accent-color: #d4af37; /* Gold */
+            --glow-color: rgba(212, 175, 55, 0.4);
+            --text-color: #f5f5f5;
+            --subtle-text-color: #a0a0a0;
+            --danger-color: #c74343;
+            --danger-glow: rgba(199, 67, 67, 0.4);
         }
 
         body {
-            font-family: 'Share Tech Mono', monospace;
+            font-family: 'Lato', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            background-image: 
-                linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
-            background-size: 20px 20px;
         }
 
-        .cyber-title {
-            font-family: 'Orbitron', sans-serif;
-            text-shadow: 0 0 5px var(--glow-color), 0 0 10px var(--glow-color);
-            animation: glitch 3s linear infinite;
-        }
-
-        .cyber-card {
-            background-color: var(--primary-color);
-            border: 1px solid var(--accent-color);
-            box-shadow: 0 0 15px var(--glow-color), inset 0 0 10px rgba(0, 242, 255, 0.1);
-            backdrop-filter: blur(5px);
-            background-color: rgba(26, 26, 46, 0.8);
-        }
-
-        .cyber-input, .cyber-select {
-            background-color: rgba(13, 13, 26, 0.8);
-            border: 1px solid var(--accent-color);
-            color: var(--text-color);
-            transition: all 0.3s ease;
-        }
-        .cyber-input:focus, .cyber-select:focus {
-            outline: none;
-            box-shadow: 0 0 10px var(--glow-color);
-            border-color: var(--accent-color);
-        }
-
-        .cyber-btn {
-            font-family: 'Orbitron', sans-serif;
-            background-color: transparent;
-            border: 1px solid var(--accent-color);
+        .luxury-title {
+            font-family: 'Playfair Display', serif;
             color: var(--accent-color);
-            text-shadow: 0 0 5px var(--glow-color);
-            transition: all 0.3s ease;
-        }
-        .cyber-btn:hover {
-            background-color: var(--accent-color);
-            color: var(--primary-color);
-            box-shadow: 0 0 20px var(--glow-color);
+            text-shadow: 0 0 10px var(--glow-color);
         }
 
-        .cyber-btn-danger {
-            border-color: var(--danger-color);
-            color: var(--danger-color);
-            text-shadow: 0 0 5px var(--danger-glow);
+        .luxury-card {
+            background-color: var(--primary-color);
+            border: 1px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px var(--glow-color);
         }
-        .cyber-btn-danger:hover {
-            background-color: var(--danger-color);
+
+        .luxury-input, .luxury-select {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            color: var(--text-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        .luxury-input:focus, .luxury-select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+
+        .luxury-btn {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            background-color: var(--accent-color);
+            border: 1px solid var(--accent-color);
             color: var(--primary-color);
-            box-shadow: 0 0 20px var(--danger-glow);
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .luxury-btn:hover {
+            background-color: #e7c356;
+            box-shadow: 0 0 15px var(--glow-color);
+            transform: translateY(-2px);
         }
         
+        .luxury-btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+        }
+        .luxury-btn-secondary:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        .luxury-btn-danger {
+            background-color: var(--danger-color);
+            border-color: var(--danger-color);
+            color: var(--text-color);
+        }
+        .luxury-btn-danger:hover {
+            background-color: #e05a5a;
+            box-shadow: 0 0 15px var(--danger-glow);
+        }
+        
+        .task-item {
+            background-color: #2a2a2a;
+            border: 1px solid #383838;
+        }
         .task-item.completed .task-text {
             text-decoration: line-through;
-            color: #888;
+            color: var(--subtle-text-color);
         }
 
-        .priority-high { border-left: 4px solid #ff3b30; }
-        .priority-medium { border-left: 4px solid #ff9500; }
-        .priority-low { border-left: 4px solid #34c759; }
+        .priority-high { border-left: 4px solid #c74343; }
+        .priority-medium { border-left: 4px solid #d4af37; }
+        .priority-low { border-left: 4px solid #5a8a6f; }
 
         /* スクロールバーのスタイル */
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: var(--primary-color); }
-        ::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #00b8c2; }
-
-        /* グリッチアニメーション */
-        @keyframes glitch {
-            2%, 64% { transform: translate(2px, 0) skew(0deg); }
-            4%, 60% { transform: translate(-2px, 0) skew(0deg); }
-            62% { transform: translate(0, 0) skew(5deg); }
-        }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -120,40 +124,40 @@
     <div class="max-w-4xl mx-auto">
         <!-- ヘッダー: アプリタイトル -->
         <header class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold cyber-title text-cyan-300">
-                <i class="fas fa-tasks mr-3"></i>CYBER_TASK_MANAGER
+            <h1 class="text-4xl md:text-5xl font-bold luxury-title">
+                <i class="fas fa-tasks mr-3"></i>Task Manager
             </h1>
-            <p class="text-cyan-400 text-sm mt-2">// Your life, optimized.</p>
+            <p class="text-gray-400 text-sm mt-2">// The peak of productivity.</p>
         </header>
 
         <!-- メインコンテンツ -->
-        <main class="cyber-card rounded-lg p-4 md:p-6">
+        <main class="luxury-card p-4 md:p-6">
             <!-- タスク追加フォーム -->
             <form id="add-task-form" class="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
-                <input type="text" id="task-input" class="cyber-input rounded col-span-1 md:col-span-3 p-2" placeholder="> New task protocol..." required>
-                <input type="date" id="due-date-input" class="cyber-input rounded col-span-1 md:col-span-1 p-2" title="Due Date">
-                <select id="priority-input" class="cyber-select rounded col-span-1 md:col-span-1 p-2">
-                    <option value="medium">Priority: Medium</option>
-                    <option value="high">Priority: High</option>
-                    <option value="low">Priority: Low</option>
+                <input type="text" id="task-input" class="luxury-input col-span-1 md:col-span-3 p-2" placeholder="新しいタスクを入力..." required>
+                <input type="date" id="due-date-input" class="luxury-input col-span-1 md:col-span-1 p-2" title="Due Date">
+                <select id="priority-input" class="luxury-select col-span-1 md:col-span-1 p-2">
+                    <option value="medium">優先度: 中</option>
+                    <option value="high">優先度: 高</option>
+                    <option value="low">優先度: 低</option>
                 </select>
-                <button type="submit" class="cyber-btn rounded p-2 col-span-1 md:col-span-1">
-                    <i class="fas fa-plus-circle mr-2"></i>ADD
+                <button type="submit" class="luxury-btn p-2 col-span-1 md:col-span-1">
+                    <i class="fas fa-plus mr-1"></i>追加
                 </button>
             </form>
 
             <!-- フィルターとソート -->
             <div class="flex flex-wrap gap-4 items-center justify-between mb-4">
                 <div id="filter-buttons" class="flex gap-2">
-                    <button data-filter="all" class="cyber-btn rounded px-3 py-1 text-sm active">ALL</button>
-                    <button data-filter="active" class="cyber-btn rounded px-3 py-1 text-sm">ACTIVE</button>
-                    <button data-filter="completed" class="cyber-btn rounded px-3 py-1 text-sm">COMPLETED</button>
+                    <button data-filter="all" class="luxury-btn luxury-btn-secondary rounded px-3 py-1 text-sm active">すべて</button>
+                    <button data-filter="active" class="luxury-btn luxury-btn-secondary rounded px-3 py-1 text-sm">実行中</button>
+                    <button data-filter="completed" class="luxury-btn luxury-btn-secondary rounded px-3 py-1 text-sm">完了</button>
                 </div>
-                <div class="flex gap-2">
-                    <select id="sort-select" class="cyber-select rounded text-sm p-1">
-                        <option value="default">Sort: Default</option>
-                        <option value="priority">Sort: Priority</option>
-                        <option value="dueDate">Sort: Due Date</option>
+                <div>
+                    <select id="sort-select" class="luxury-select rounded text-sm p-1">
+                        <option value="default">並び替え: デフォルト</option>
+                        <option value="priority">並び替え: 優先度</option>
+                        <option value="dueDate">並び替え: 期日</option>
                     </select>
                 </div>
             </div>
@@ -166,31 +170,31 @@
             </div>
             
             <!-- フッター: タスク数と一括削除 -->
-            <footer class="mt-6 pt-4 border-t border-cyan-700/50 flex justify-between items-center">
-                <p id="task-count" class="text-sm text-cyan-400">0 tasks remaining</p>
-                <button id="clear-completed-btn" class="cyber-btn cyber-btn-danger rounded px-3 py-1 text-sm">
-                    <i class="fas fa-trash-alt mr-1"></i> Clear Completed
+            <footer class="mt-6 pt-4 border-t border-gray-700 flex justify-between items-center">
+                <p id="task-count" class="text-sm text-gray-400">0 tasks remaining</p>
+                <button id="clear-completed-btn" class="luxury-btn luxury-btn-danger rounded px-3 py-1 text-sm">
+                    <i class="fas fa-trash-alt mr-1"></i> 完了済みを削除
                 </button>
             </footer>
         </main>
     </div>
 
     <!-- 編集用モーダル -->
-    <div id="edit-modal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center hidden">
-        <div class="cyber-card rounded-lg p-6 w-11/12 max-w-md">
-            <h2 class="text-2xl font-bold cyber-title text-cyan-300 mb-4">Edit Task Protocol</h2>
+    <div id="edit-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden">
+        <div class="luxury-card p-6 w-11/12 max-w-md">
+            <h2 class="text-2xl font-bold luxury-title mb-4">タスクを編集</h2>
             <form id="edit-task-form">
                 <input type="hidden" id="edit-task-id">
-                <input type="text" id="edit-task-text" class="cyber-input rounded w-full p-2 mb-4" required>
-                <input type="date" id="edit-due-date" class="cyber-input rounded w-full p-2 mb-4">
-                <select id="edit-priority" class="cyber-select rounded w-full p-2 mb-6">
-                    <option value="high">Priority: High</option>
-                    <option value="medium">Priority: Medium</option>
-                    <option value="low">Priority: Low</option>
+                <input type="text" id="edit-task-text" class="luxury-input w-full p-2 mb-4" required>
+                <input type="date" id="edit-due-date" class="luxury-input w-full p-2 mb-4">
+                <select id="edit-priority" class="luxury-select w-full p-2 mb-6">
+                    <option value="high">優先度: 高</option>
+                    <option value="medium">優先度: 中</option>
+                    <option value="low">優先度: 低</option>
                 </select>
                 <div class="flex justify-end gap-4">
-                    <button type="button" id="cancel-edit-btn" class="cyber-btn cyber-btn-danger rounded px-4 py-2">CANCEL</button>
-                    <button type="submit" class="cyber-btn rounded px-4 py-2">UPDATE</button>
+                    <button type="button" id="cancel-edit-btn" class="luxury-btn luxury-btn-secondary rounded px-4 py-2">キャンセル</button>
+                    <button type="submit" class="luxury-btn rounded px-4 py-2">更新</button>
                 </div>
             </form>
         </div>
@@ -200,7 +204,6 @@
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // --- DOM要素の取得 ---
-        // 効率的な開発のため、頻繁にアクセスする要素は変数にキャッシュします。
         const taskInput = document.getElementById('task-input');
         const dueDateInput = document.getElementById('due-date-input');
         const priorityInput = document.getElementById('priority-input');
@@ -221,69 +224,56 @@
         const cancelEditBtn = document.getElementById('cancel-edit-btn');
 
         // --- 状態管理 ---
-        // アプリケーションの状態を一元管理することで、予測可能で堅牢なシステムを構築します。
         let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         let currentFilter = 'all';
         let currentSort = 'default';
 
         // --- ビジネスロジック関数 ---
 
-        /**
-         * タスクデータをlocalStorageに保存します。
-         * データの永続化は業務効率化の基本です。
-         */
         const saveTasks = () => {
             localStorage.setItem('tasks', JSON.stringify(tasks));
         };
 
-        /**
-         * タスクリストをレンダリング（描画）します。
-         * フィルタリングとソートを適用してから描画することで、常に正しいビューを提供します。
-         */
         const renderTasks = () => {
-            // 1. フィルタリング
             let filteredTasks = tasks.filter(task => {
                 if (currentFilter === 'completed') return task.completed;
                 if (currentFilter === 'active') return !task.completed;
-                return true; // 'all'
+                return true;
             });
 
-            // 2. ソート
             const priorityValues = { high: 3, medium: 2, low: 1 };
             let sortedTasks = [...filteredTasks].sort((a, b) => {
                 switch (currentSort) {
                     case 'priority':
                         return priorityValues[b.priority] - priorityValues[a.priority];
                     case 'dueDate':
-                        // 日付がないタスクは最後尾に
                         if (!a.dueDate) return 1;
                         if (!b.dueDate) return -1;
                         return new Date(a.dueDate) - new Date(b.dueDate);
                     default:
-                        return 0; // デフォルトの順序（追加順）
+                        return 0;
                 }
             });
 
-            // 3. HTML生成
             taskList.innerHTML = '';
             if (sortedTasks.length === 0) {
-                taskList.innerHTML = `<li class="text-center text-gray-500 p-4">// No tasks in this sector. Standby for new directives.</li>`;
+                taskList.innerHTML = `<li class="text-center text-gray-500 p-4">表示するタスクがありません。</li>`;
             } else {
                 sortedTasks.forEach(task => {
                     const taskElement = document.createElement('li');
                     taskElement.dataset.id = task.id;
-                    taskElement.className = `task-item flex items-center p-3 rounded-md transition-all duration-300 cyber-card ${task.completed ? 'completed' : ''} priority-${task.priority}`;
+                    taskElement.className = `task-item flex items-center p-3 rounded-md transition-all duration-300 ${task.completed ? 'completed' : ''} priority-${task.priority}`;
                     
-                    const dueDateText = task.dueDate ? `<span class="text-xs text-cyan-400 ml-2"><i class="far fa-calendar-alt mr-1"></i>${task.dueDate}</span>` : '';
+                    const dueDateText = task.dueDate ? `<span class="text-xs text-gray-400 ml-2"><i class="far fa-calendar-alt mr-1"></i>${task.dueDate}</span>` : '';
 
                     taskElement.innerHTML = `
                         <div class="flex-grow flex items-center cursor-pointer" onclick="toggleTask('${task.id}')">
-                            <i class="far ${task.completed ? 'fa-check-square' : 'fa-square'} text-cyan-300 text-xl mr-4"></i>
+                            <i class="far ${task.completed ? 'fa-check-square' : 'fa-square'} text-yellow-300 text-xl mr-4"></i>
                             <span class="task-text">${task.text}</span>
                             ${dueDateText}
                         </div>
                         <div class="flex items-center">
-                            <button onclick="openEditModal('${task.id}')" class="text-gray-400 hover:text-cyan-300 transition-colors px-2"><i class="fas fa-edit"></i></button>
+                            <button onclick="openEditModal('${task.id}')" class="text-gray-400 hover:text-yellow-300 transition-colors px-2"><i class="fas fa-edit"></i></button>
                             <button onclick="deleteTask('${task.id}')" class="text-gray-400 hover:text-red-500 transition-colors px-2"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     `;
@@ -294,48 +284,29 @@
             updateTaskCount();
         };
 
-        /**
-         * 残タスク数を更新します。
-         * ユーザーに進捗を明確に伝えることは、モチベーション維持に繋がります。
-         */
         const updateTaskCount = () => {
             const remainingTasks = tasks.filter(task => !task.completed).length;
-            taskCount.textContent = `${remainingTasks} tasks remaining`;
+            taskCount.textContent = `残りのタスク: ${remainingTasks}件`;
         };
         
-        /**
-         * タスクを追加します。
-         * @param {string} text - タスクの内容
-         * @param {string} dueDate - 期日
-         * @param {string} priority - 優先度
-         */
         const addTask = (text, dueDate, priority) => {
             if (text.trim() === '') return;
-
             const newTask = {
-                id: 'task-' + new Date().getTime(), // ユニークIDを生成
+                id: 'task-' + new Date().getTime(),
                 text,
                 completed: false,
                 dueDate,
                 priority
             };
-            tasks.unshift(newTask); // 新しいタスクを先頭に追加
+            tasks.unshift(newTask);
             saveAndRender();
         };
 
-        /**
-         * タスクを削除します。
-         * @param {string} id - 削除するタスクのID
-         */
         window.deleteTask = (id) => {
             tasks = tasks.filter(task => task.id !== id);
             saveAndRender();
         };
 
-        /**
-         * タスクの完了/未完了を切り替えます。
-         * @param {string} id - 切り替えるタスクのID
-         */
         window.toggleTask = (id) => {
             tasks = tasks.map(task => 
                 task.id === id ? { ...task, completed: !task.completed } : task
@@ -343,10 +314,6 @@
             saveAndRender();
         };
 
-        /**
-         * 編集モーダルを開きます。
-         * @param {string} id - 編集するタスクのID
-         */
         window.openEditModal = (id) => {
             const task = tasks.find(t => t.id === id);
             if (task) {
@@ -358,20 +325,10 @@
             }
         };
 
-        /**
-         * 編集モーダルを閉じます。
-         */
         const closeEditModal = () => {
             editModal.classList.add('hidden');
         };
 
-        /**
-         * タスクを更新します。
-         * @param {string} id - 更新するタスクのID
-         * @param {string} newText - 新しいタスクの内容
-         * @param {string} newDueDate - 新しい期日
-         * @param {string} newPriority - 新しい優先度
-         */
         const updateTask = (id, newText, newDueDate, newPriority) => {
             tasks = tasks.map(task =>
                 task.id === id ? { ...task, text: newText, dueDate: newDueDate, priority: newPriority } : task
@@ -380,18 +337,11 @@
             closeEditModal();
         };
 
-        /**
-         * 完了済みのタスクをすべて削除します。
-         */
         const clearCompletedTasks = () => {
             tasks = tasks.filter(task => !task.completed);
             saveAndRender();
         };
         
-        /**
-         * 保存と再描画をまとめて実行するヘルパー関数。
-         * コードのDRY (Don't Repeat Yourself) 原則を遵守します。
-         */
         const saveAndRender = () => {
             saveTasks();
             renderTasks();
@@ -399,7 +349,6 @@
 
         // --- イベントリスナーの設定 ---
         
-        // タスク追加フォームの送信イベント
         addTaskForm.addEventListener('submit', e => {
             e.preventDefault();
             addTask(taskInput.value, dueDateInput.value, priorityInput.value);
@@ -409,42 +358,34 @@
             taskInput.focus();
         });
 
-        // フィルターボタンのクリックイベント
         filterButtons.addEventListener('click', e => {
             if (e.target.tagName === 'BUTTON') {
                 currentFilter = e.target.dataset.filter;
-                // アクティブなボタンのスタイルを更新
                 document.querySelectorAll('#filter-buttons button').forEach(btn => {
-                    btn.classList.remove('active', 'bg-cyan-500', 'text-black');
+                    btn.classList.remove('active', 'bg-yellow-300', 'text-black');
                 });
-                e.target.classList.add('active', 'bg-cyan-500', 'text-black');
+                e.target.classList.add('active', 'bg-yellow-300', 'text-black');
                 renderTasks();
             }
         });
         
-        // ソートセレクトの変更イベント
         sortSelect.addEventListener('change', e => {
             currentSort = e.target.value;
             renderTasks();
         });
 
-        // 完了済みタスクの一括削除ボタン
         clearCompletedBtn.addEventListener('click', clearCompletedTasks);
         
-        // 編集フォームの送信イベント
         editTaskForm.addEventListener('submit', e => {
             e.preventDefault();
             updateTask(editTaskId.value, editTaskText.value, editDueDate.value, editPriority.value);
         });
 
-        // 編集モーダルのキャンセルボタン
         cancelEditBtn.addEventListener('click', closeEditModal);
 
         // --- 初期化処理 ---
-        // アプリケーション起動時に、保存されたデータを読み込み、画面を初期状態に設定します。
         renderTasks();
-        // 初期アクティブフィルターボタンのスタイル設定
-        document.querySelector('#filter-buttons button[data-filter="all"]').classList.add('active', 'bg-cyan-500', 'text-black');
+        document.querySelector('#filter-buttons button[data-filter="all"]').classList.add('active', 'bg-yellow-300', 'text-black');
     });
     </script>
 </body>
